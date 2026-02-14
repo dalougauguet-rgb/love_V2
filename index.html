@@ -217,9 +217,9 @@ body {
   min-height: 200px; /* assez grande pour un texte court */
   padding: clamp(25px, 6vw, 40px) clamp(20px, 5vw, 30px);
   position: absolute;
-  top: 30%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%); /* commence en bas de l'enveloppe */
+  transform: translate(-50%, 100%); /* commence en bas de l'enveloppe */
   border-radius: 8px;
   box-shadow: 0 10px 40px var(--shadow);
   z-index: 6;
@@ -231,7 +231,7 @@ body {
 
 
 .letter.slide-out {
-  transform: translate(-50%, 0%);
+  transform: translate(-50%, -10%);
 }
 
 .letter-text {
@@ -244,6 +244,7 @@ body {
   white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
+
 }
 
 .letter-text.typing {
