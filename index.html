@@ -1,370 +1,285 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Can't Escape Love</title>
-    <style>
-        :root {
-            --grass: #B8C5A0;
-            --thicket: #D4968E;
-            --blossom: #E8A4A8;
-            --berry: #C17B89;
-            --sky: #9CB5C4;
-            --cream: #FFF9F5;
-            --shadow: rgba(193, 123, 137, 0.15);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You Can't Escape Love</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    :root {
+      --grass: #B8C5A0;
+      --thicket: #D4968E;
+      --blossom: #E8A4A8;
+      --berry: #C17B89;
+      --cream: #FFF9F5;
+      --shadow: rgba(193, 123, 137, 0.15);
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(180deg, var(--blossom) 0%, var(--berry) 100%);
-            min-height: 100svh; /* FIX mobile vh */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            padding: 1rem;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-            aspect-ratio: 9/16;
-            max-height: min(95vh, 800px);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(180deg, var(--blossom), var(--berry));
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 1rem;
+    }
 
-        .question-card {
-            background: var(--cream);
-            backdrop-filter: blur(10px);
-            border-radius: clamp(16px, 5vw, 24px);
-            padding: clamp(30px, 8vw, 60px) clamp(20px, 6vw, 40px);
-            box-shadow: 0 20px 60px var(--shadow);
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            width: 100%;
-            max-width: 500px;
-        }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 9/16;
+      max-height: 95svh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .question-card.glow {
-            box-shadow: 0 20px 80px rgba(232, 164, 168, 0.4),
-                        0 0 100px rgba(232, 164, 168, 0.3);
-        }
+    .question-card {
+      background: var(--cream);
+      border-radius: 24px;
+      padding: 50px 30px;
+      box-shadow: 0 20px 60px var(--shadow);
+      text-align: center;
+      width: 100%;
+      transition: 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    }
 
-        .question-card.fade-out {
-            opacity: 0;
-            transform: scale(0.9);
-            pointer-events: none;
-        }
+    .question-card.fade-out {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
 
-        .question-text {
-            font-size: clamp(22px, 6vw, 32px);
-            font-weight: 600;
-            color: var(--berry);
-            margin-bottom: clamp(25px, 6vw, 40px);
-            letter-spacing: -0.5px;
-            line-height: 1.3;
-        }
+    .question-text {
+      font-size: clamp(22px, 6vw, 32px);
+      font-weight: 600;
+      color: var(--berry);
+      margin-bottom: 40px;
+    }
 
-        .buttons-container {
-            min-height: clamp(150px, 30vw, 200px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(12px, 4vw, 20px);
-            flex-wrap: wrap;
-        }
+    .buttons-container {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-        .btn {
-            padding: clamp(12px, 3vw, 16px) clamp(32px, 8vw, 48px);
-            font-size: clamp(15px, 4vw, 18px);
-            font-weight: 600;
-            border-radius: 12px;
-            border: 2px solid;
-            background: #ffffff;
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            white-space: nowrap;
-        }
+    .btn {
+      padding: 14px 40px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 2px solid;
+      background: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-        .btn-yes {
-            color: var(--berry);
-            border-color: var(--berry);
-            z-index: 2;
-        }
+    .btn-yes { color: var(--berry); border-color: var(--berry); }
+    .btn-no  { color: var(--thicket); border-color: var(--grass); }
+    .btn-no.hide { display: none; }
 
-        .btn-no {
-            color: var(--thicket);
-            border-color: var(--grass);
-        }
+    .envelope-container {
+      position: absolute;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: 0.8s cubic-bezier(0.34,1.56,0.64,1);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
 
-        .btn-no.hide {
-            opacity: 0;
-            transform: scale(0);
-            pointer-events: none;
-        }
+    .envelope-container.show {
+      opacity: 1;
+      transform: scale(1);
+    }
 
-        .envelope-container {
-            position: absolute;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: none;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
+    .envelope {
+      width: min(90vw, 320px);
+      height: min(56vw, 200px);
+      background: var(--cream);
+      position: relative;
+      border-radius: 6px;
+      box-shadow: 0 20px 60px var(--shadow);
+    }
 
-        .envelope-container.show {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: all;
-        }
+    .envelope-flap {
+      position: absolute;
+      inset: 0;
+      background: var(--cream);
+      clip-path: polygon(0 0, 50% 50%, 100% 0);
+      transform-origin: top;
+      transition: transform 1.2s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 3;
+    }
 
-        .envelope {
-            width: min(90vw, 320px);
-            height: min(56.25vw, 200px);
-            position: relative;
-            background: var(--cream);
-            border-radius: 4px;
-            box-shadow: 0 20px 60px var(--shadow);
-        }
+    .envelope-flap.open { transform: rotateX(180deg); }
 
-        .envelope-flap {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: var(--cream);
-            transform-origin: top center;
-            transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            clip-path: polygon(0 0, 50% 50%, 100% 0);
-            z-index: 3;
-        }
+    .heart-seal {
+      width: 40px;
+      height: 40px;
+      background: var(--berry);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-radius: 50% 50% 0 50%;
+      z-index: 4;
+      transition: 0.5s;
+    }
 
-        .envelope-flap.open {
-            transform: rotateX(180deg);
-        }
+    .heart-seal::before,
+    .heart-seal::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--berry);
+      border-radius: 50%;
+    }
 
-        .heart-seal {
-            width: clamp(35px, 10vw, 50px);
-            height: clamp(35px, 10vw, 50px);
-            background: var(--berry);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            z-index: 4;
-            border-radius: 50% 50% 0 50%;
-            box-shadow: 0 4px 15px rgba(193, 123, 137, 0.4);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+    .heart-seal::before { top: -50%; }
+    .heart-seal::after  { left: -50%; }
 
-        .heart-seal::before,
-        .heart-seal::after {
-            content: '';
-            width: 100%;
-            height: 100%;
-            background: var(--berry);
-            position: absolute;
-            border-radius: 50%;
-        }
+    .heart-seal.fade {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    }
 
-        .heart-seal::before { top: -50%; left: 0; }
-        .heart-seal::after  { top: 0; left: -50%; }
+    .letter {
+      position: absolute;
+      width: min(82vw, 280px);
+      min-height: min(110vw, 380px);
+      height: auto;
+      background: var(--cream);
+      border-radius: 10px;
+      padding: 30px 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 80%);
+      transition: 1.2s cubic-bezier(0.34,1.56,0.64,1);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 10px 40px var(--shadow);
+    }
 
-        .heart-seal.fade {
-            opacity: 0;
-            transform: translate(-50%, -50%) rotate(45deg) scale(0);
-        }
+    .letter.slide-out { transform: translate(-50%, -20%); }
 
-        .letter {
-            width: min(82vw, 280px);
-            min-height: min(110vw, 380px); /* FIX hauteur auto */
-            height: auto;
-            background: var(--cream);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, 80%);
-            border-radius: 8px;
-            padding: clamp(25px, 6vw, 40px) clamp(20px, 5vw, 30px);
-            box-shadow: 0 10px 40px var(--shadow);
-            z-index: 2;
-            transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            overflow-y: auto;                 /* FIX scroll */
-            -webkit-overflow-scrolling: touch; /* FIX iOS */
-        }
+    .letter-text {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--berry);
+      text-align: center;
+      opacity: 0;
+    }
 
-        .letter.slide-out {
-            transform: translate(-50%, -45%);
-        }
+    .letter-text.typing { opacity: 1; }
 
-        .letter-text {
-            font-size: clamp(16px, 4.5vw, 20px);
-            line-height: 1.8;
-            color: var(--berry);
-            text-align: center;
-            font-weight: 500;
-            opacity: 0;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: fall linear forwards;
+      pointer-events: none;
+    }
 
-        .letter-text.typing {
-            opacity: 1;
-        }
-
-        .heart {
-            position: absolute;
-            font-size: clamp(15px, 4vw, 20px);
-            opacity: 0;
-            pointer-events: none;
-            animation: fall linear forwards;
-            z-index: 1;
-        }
-
-        @keyframes fall {
-            0% { opacity: 0; transform: translateY(-50px) rotate(0deg); }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.6; }
-            100% { opacity: 0; transform: translateY(100svh) rotate(360deg); }
-        }
-
-        @media (max-width: 360px) {
-            .letter-text {
-                font-size: 15px;
-                line-height: 1.6;
-            }
-        }
-    </style>
+    @keyframes fall {
+      from { transform: translateY(-50px); opacity: 0; }
+      to   { transform: translateY(100svh) rotate(360deg); opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="question-card" id="questionCard">
-            <div class="question-text">You want be my galentines?</div>
-            <div class="buttons-container">
-                <button class="btn btn-no" id="btnNo1">NO</button>
-                <button class="btn btn-yes" id="btnYes">YES</button>
-                <button class="btn btn-no" id="btnNo2">NO</button>
-            </div>
-        </div>
 
-        <div class="envelope-container" id="envelopeContainer">
-            <div class="envelope">
-                <div class="envelope-flap" id="envelopeFlap">
-                    <div class="heart-seal" id="heartSeal"></div>
-                </div>
-                <div class="letter" id="letter">
-                    <div class="letter-text" id="letterText"></div>
-                </div>
-            </div>
-        </div>
+<div class="container">
+  <div class="question-card" id="questionCard">
+    <div class="question-text">You want be my galentines?</div>
+    <div class="buttons-container">
+      <button class="btn btn-no" id="btnNo1">NO</button>
+      <button class="btn btn-yes" id="btnYes">YES</button>
+      <button class="btn btn-no" id="btnNo2">NO</button>
     </div>
+  </div>
 
-    <script>
-        const btnYes = document.getElementById('btnYes');
-        const btnNo1 = document.getElementById('btnNo1');
-        const btnNo2 = document.getElementById('btnNo2');
-        const questionCard = document.getElementById('questionCard');
-        const envelopeContainer = document.getElementById('envelopeContainer');
-        const envelopeFlap = document.getElementById('envelopeFlap');
-        const heartSeal = document.getElementById('heartSeal');
-        const letter = document.getElementById('letter');
-        const letterText = document.getElementById('letterText');
+  <div class="envelope-container" id="envelopeContainer">
+    <div class="envelope">
+      <div class="envelope-flap" id="envelopeFlap">
+        <div class="heart-seal" id="heartSeal"></div>
+      </div>
+      <div class="letter" id="letter">
+        <div class="letter-text" id="letterText"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        let escapeCount = 0;
-        let maxEscapes = 3;
+<script>
+  const btnYes = document.getElementById('btnYes');
+  const questionCard = document.getElementById('questionCard');
+  const envelopeContainer = document.getElementById('envelopeContainer');
+  const envelopeFlap = document.getElementById('envelopeFlap');
+  const heartSeal = document.getElementById('heartSeal');
+  const letter = document.getElementById('letter');
+  const letterText = document.getElementById('letterText');
 
-        btnYes.addEventListener('click', () => transitionToScene2());
+  btnYes.onclick = () => {
+    questionCard.classList.add('fade-out');
+    setTimeout(() => {
+      questionCard.style.display = 'none';
+      envelopeContainer.classList.add('show');
+      setTimeout(openEnvelope, 700);
+    }, 600);
+  };
 
-        function moveNoButton(btn) {
-            const directions = [
-                { x: 0, y: -80 }, { x: 0, y: 80 },
-                { x: -100, y: 0 }, { x: 100, y: 0 },
-                { x: -70, y: -70 }, { x: 70, y: -70 },
-                { x: -70, y: 70 }, { x: 70, y: 70 }
-            ];
-            const d = directions[Math.floor(Math.random() * directions.length)];
-            btn.style.transform = `translate(${d.x}px, ${d.y}px)`;
-            escapeCount++;
-            btnYes.style.transform = `scale(${1 + escapeCount * 0.15})`;
-            if (escapeCount >= maxEscapes) {
-                btnNo1.classList.add('hide');
-                btnNo2.classList.add('hide');
-            }
-        }
+  function openEnvelope() {
+    heartSeal.classList.add('fade');
+    if (navigator.vibrate) navigator.vibrate(50); // 📳 vibration mobile
 
-        btnNo1.addEventListener('mouseenter', () => moveNoButton(btnNo1));
-        btnNo2.addEventListener('mouseenter', () => moveNoButton(btnNo2));
-        btnNo1.addEventListener('touchstart', e => { e.preventDefault(); moveNoButton(btnNo1); });
-        btnNo2.addEventListener('touchstart', e => { e.preventDefault(); moveNoButton(btnNo2); });
+    setTimeout(() => {
+      envelopeFlap.classList.add('open');
+      setTimeout(() => {
+        letter.classList.add('slide-out');
+        setTimeout(() => {
+          typeMessage();
+          startHeartRain(); // 💗 pluie de cœurs
+        }, 700);
+      }, 500);
+    }, 400);
+  }
 
-        function transitionToScene2() {
-            questionCard.classList.add('fade-out');
-            setTimeout(() => {
-                questionCard.style.display = 'none';
-                envelopeContainer.classList.add('show');
-                setTimeout(openEnvelope, 800);
-            }, 600);
-        }
+  function typeMessage() {
+    const msg = "Ma chlo, profites bien de ta journée avec oscar, je t'aime très fort !! 💖";
+    let i = 0;
+    letterText.classList.add('typing');
 
-        function openEnvelope() {
-            heartSeal.classList.add('fade');
-            setTimeout(() => {
-                envelopeFlap.classList.add('open');
-                setTimeout(() => {
-                    letter.classList.add('slide-out');
-                    setTimeout(typeMessage, 1000);
-                }, 600);
-            }, 400);
-        }
+    const interval = setInterval(() => {
+      letterText.textContent += msg[i++];
+      if (i >= msg.length) clearInterval(interval);
+    }, 40);
+  }
 
-        function typeMessage() {
-            const message = "Ma chlo, profites bien de ta journée avec oscar, je t'aime très fort !! 💖";
-            let i = 0;
-            letterText.classList.add('typing');
-            function type() {
-                if (i < message.length) {
-                    letterText.textContent += message[i++];
-                    setTimeout(type, 50);
-                } else startHeartRain();
-            }
-            type();
-        }
+  function startHeartRain() {
+    const hearts = ["💖", "💗", "💓", "💕"];
+    const container = document.querySelector('.container');
 
-        function startHeartRain() {
-            const hearts = ['💖','💗','💓','💕'];
-            const container = document.querySelector('.container');
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
-                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                container.appendChild(heart);
-                setTimeout(() => heart.remove(), 7000);
-            }, 300);
-        }
-    </script>
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.fontSize = (Math.random() * 14 + 16) + 'px';
+      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+
+      container.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 7000);
+    }, 300);
+  }
+</script>
+
 </body>
 </html>
 
