@@ -6,7 +6,6 @@
     <title>You Can't Escape Love</title>
     <style>
         :root {
-            /* Floral Theme Colors */
             --grass: #B8C5A0;
             --thicket: #D4968E;
             --blossom: #E8A4A8;
@@ -25,7 +24,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(180deg, var(--blossom) 0%, var(--berry) 100%);
-            min-height: 100vh;
+            min-height: 100svh; /* FIX mobile vh */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -45,7 +44,6 @@
             justify-content: center;
         }
 
-        /* Scene 1 - Question Card */
         .question-card {
             background: var(--cream);
             backdrop-filter: blur(10px);
@@ -63,7 +61,6 @@
         .question-card.glow {
             box-shadow: 0 20px 80px rgba(232, 164, 168, 0.4),
                         0 0 100px rgba(232, 164, 168, 0.3);
-            background: var(--cream);
         }
 
         .question-card.fade-out {
@@ -82,7 +79,6 @@
         }
 
         .buttons-container {
-            position: relative;
             min-height: clamp(150px, 30vw, 200px);
             display: flex;
             align-items: center;
@@ -109,19 +105,11 @@
             color: var(--berry);
             border-color: var(--berry);
             z-index: 2;
-            transform: scale(1);
-        }
-
-        .btn-yes:hover {
-            background: var(--berry);
-            color: #ffffff;
-            box-shadow: 0 8px 20px rgba(193, 123, 137, 0.3);
         }
 
         .btn-no {
             color: var(--thicket);
             border-color: var(--grass);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .btn-no.hide {
@@ -130,7 +118,6 @@
             pointer-events: none;
         }
 
-        /* Scene 2 - Envelope */
         .envelope-container {
             position: absolute;
             opacity: 0;
@@ -190,17 +177,7 @@
             transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .heart-seal::before {
-            content: '';
-            width: 100%;
-            height: 100%;
-            background: var(--berry);
-            position: absolute;
-            border-radius: 50%;
-            top: -50%;
-            left: 0;
-        }
-
+        .heart-seal::before,
         .heart-seal::after {
             content: '';
             width: 100%;
@@ -208,9 +185,10 @@
             background: var(--berry);
             position: absolute;
             border-radius: 50%;
-            top: 0;
-            left: -50%;
         }
+
+        .heart-seal::before { top: -50%; left: 0; }
+        .heart-seal::after  { top: 0; left: -50%; }
 
         .heart-seal.fade {
             opacity: 0;
@@ -219,7 +197,8 @@
 
         .letter {
             width: min(82vw, 280px);
-            height: min(110vw, 380px);
+            min-height: min(110vw, 380px); /* FIX hauteur auto */
+            height: auto;
             background: var(--cream);
             position: absolute;
             top: 50%;
@@ -230,6 +209,8 @@
             box-shadow: 0 10px 40px var(--shadow);
             z-index: 2;
             transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow-y: auto;                 /* FIX scroll */
+            -webkit-overflow-scrolling: touch; /* FIX iOS */
         }
 
         .letter.slide-out {
@@ -251,7 +232,6 @@
             opacity: 1;
         }
 
-        /* Heart Rain */
         .heart {
             position: absolute;
             font-size: clamp(15px, 4vw, 20px);
@@ -262,92 +242,22 @@
         }
 
         @keyframes fall {
-            0% {
-                opacity: 0;
-                transform: translateY(-50px) rotate(0deg);
-            }
-            10% {
-                opacity: 0.8;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(100vh) rotate(360deg);
-            }
+            0% { opacity: 0; transform: translateY(-50px) rotate(0deg); }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(100svh) rotate(360deg); }
         }
 
-        /* Mobile Landscape */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .container {
-                aspect-ratio: auto;
-                height: 95vh;
-                max-height: none;
-            }
-
-            .question-card {
-                padding: 20px 25px;
-            }
-
-            .question-text {
-                font-size: 20px;
-                margin-bottom: 20px;
-            }
-
-            .buttons-container {
-                min-height: 100px;
-            }
-
-            .btn {
-                padding: 10px 28px;
-                font-size: 14px;
-            }
-
-            .envelope {
-                width: min(50vh, 280px);
-                height: min(31.25vh, 175px);
-            }
-
-            .letter {
-                width: min(46vh, 250px);
-                height: min(62.5vh, 340px);
-            }
-        }
-
-        /* Small Mobile */
         @media (max-width: 360px) {
-            body {
-                padding: 0.5rem;
-            }
-
-            .question-card {
-                padding: 25px 20px;
-            }
-
-            .buttons-container {
-                gap: 10px;
-            }
-        }
-
-        /* Tablet and up */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 450px;
-            }
-        }
-
-        /* Large screens */
-        @media (min-width: 1024px) {
-            .container {
-                max-width: 480px;
+            .letter-text {
+                font-size: 15px;
+                line-height: 1.6;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Scene 1 -->
         <div class="question-card" id="questionCard">
             <div class="question-text">You want be my galentines?</div>
             <div class="buttons-container">
@@ -357,7 +267,6 @@
             </div>
         </div>
 
-        <!-- Scene 2 -->
         <div class="envelope-container" id="envelopeContainer">
             <div class="envelope">
                 <div class="envelope-flap" id="envelopeFlap">
@@ -384,137 +293,66 @@
         let escapeCount = 0;
         let maxEscapes = 3;
 
-        // YES button click
-        btnYes.addEventListener('click', () => {
-            transitionToScene2();
-        });
+        btnYes.addEventListener('click', () => transitionToScene2());
 
-        // NO button escape behavior
         function moveNoButton(btn) {
             const directions = [
-                { x: 0, y: -80 },     
-                { x: 0, y: 80 },      
-                { x: -100, y: 0 },    
-                { x: 100, y: 0 },      
-                { x: -70, y: -70 },    
-                { x: 70, y: -70 },
-                { x: -70, y: 70 },
-                { x: 70, y: 70 }
+                { x: 0, y: -80 }, { x: 0, y: 80 },
+                { x: -100, y: 0 }, { x: 100, y: 0 },
+                { x: -70, y: -70 }, { x: 70, y: -70 },
+                { x: -70, y: 70 }, { x: 70, y: 70 }
             ];
-            
-            const randomDir = directions[Math.floor(Math.random() * directions.length)];
-            btn.style.transform = `translate(${randomDir.x}px, ${randomDir.y}px)`;
-
+            const d = directions[Math.floor(Math.random() * directions.length)];
+            btn.style.transform = `translate(${d.x}px, ${d.y}px)`;
             escapeCount++;
-            
-            const scale = 1 + (escapeCount * 0.15);
-            btnYes.style.transform = `scale(${scale})`;
-
+            btnYes.style.transform = `scale(${1 + escapeCount * 0.15})`;
             if (escapeCount >= maxEscapes) {
                 btnNo1.classList.add('hide');
                 btnNo2.classList.add('hide');
-                
-                setTimeout(() => {
-                    questionCard.classList.add('glow');
-                    btnYes.style.transform = `scale(${scale * 1.3})`;
-                }, 300);
             }
         }
 
-        // Mouse events for NO button 1
         btnNo1.addEventListener('mouseenter', () => moveNoButton(btnNo1));
-        btnNo1.addEventListener('mousemove', (e) => {
-            const rect = btnNo1.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height && escapeCount < maxEscapes) {
-                moveNoButton(btnNo1);
-            }
-        });
-        btnNo1.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (escapeCount < maxEscapes) {
-                moveNoButton(btnNo1);
-            }
-        });
-
-        // Mouse events for NO button 2
         btnNo2.addEventListener('mouseenter', () => moveNoButton(btnNo2));
-        btnNo2.addEventListener('mousemove', (e) => {
-            const rect = btnNo2.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height && escapeCount < maxEscapes) {
-                moveNoButton(btnNo2);
-            }
-        });
-        btnNo2.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (escapeCount < maxEscapes) {
-                moveNoButton(btnNo2);
-            }
-        });
+        btnNo1.addEventListener('touchstart', e => { e.preventDefault(); moveNoButton(btnNo1); });
+        btnNo2.addEventListener('touchstart', e => { e.preventDefault(); moveNoButton(btnNo2); });
 
-        // Transition to Scene 2
         function transitionToScene2() {
             questionCard.classList.add('fade-out');
-            
             setTimeout(() => {
                 questionCard.style.display = 'none';
                 envelopeContainer.classList.add('show');
-                
-                setTimeout(() => {
-                    openEnvelope();
-                }, 800);
+                setTimeout(openEnvelope, 800);
             }, 600);
         }
 
-        // Open envelope animation
         function openEnvelope() {
             heartSeal.classList.add('fade');
-            
             setTimeout(() => {
                 envelopeFlap.classList.add('open');
-                
                 setTimeout(() => {
                     letter.classList.add('slide-out');
-                    
-                    setTimeout(() => {
-                        typeMessage();
-                    }, 1000);
+                    setTimeout(typeMessage, 1000);
                 }, 600);
             }, 400);
         }
 
-        // Typewriter effect
         function typeMessage() {
             const message = "Ma chlo, profites bien de ta journée avec oscar, je t'aime très fort !! 💖";
-            let index = 0;
-            
+            let i = 0;
             letterText.classList.add('typing');
-            
             function type() {
-                if (index < message.length) {
-                    letterText.textContent += message[index];
-                    index++;
+                if (i < message.length) {
+                    letterText.textContent += message[i++];
                     setTimeout(type, 50);
-                } else {
-                    setTimeout(() => {
-                        startHeartRain();
-                    }, 500);
-                }
+                } else startHeartRain();
             }
-            
             type();
         }
 
-        // Heart rain effect
         function startHeartRain() {
-            const hearts = ['💖', '💗', '💓', '💕'];
+            const hearts = ['💖','💗','💓','💕'];
             const container = document.querySelector('.container');
-            
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
@@ -522,15 +360,11 @@
                 heart.style.left = Math.random() * 100 + '%';
                 heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
                 heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                heart.style.animationDelay = Math.random() * 0.5 + 's';
-                
                 container.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 7000);
+                setTimeout(() => heart.remove(), 7000);
             }, 300);
         }
     </script>
 </body>
 </html>
+
