@@ -213,12 +213,13 @@ body {
 .letter {
   width: min(82vw, 280px);
   min-height: min(110vw, 380px);
+  max-height: 80%;
   height: auto;
   background: var(--cream);
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 70%);
+  transform: translate(-50%, -50%);
   border-radius: 8px;
   padding: clamp(25px, 6vw, 40px) clamp(20px, 5vw, 30px);
   box-shadow: 0 10px 40px var(--shadow);
@@ -229,7 +230,7 @@ body {
 }
 
 .letter.slide-out {
-  transform: translate(-50%, -5%);
+  transform: translate(-50%, 0%);
 }
 
 .letter-text {
@@ -239,6 +240,7 @@ body {
   text-align: center;
   font-weight: 500;
   opacity: 0;
+  white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
@@ -407,7 +409,7 @@ function openEnvelope() {
 
 // Typewriter
 function typeMessage() {
-  const message = "Ma chlo, profites bien de ta journée avec oscar, je t'aime très fort !! 💖";
+  const message = "Joyeuse Saint-Valentin Ma Chlo, profites bien de ta journée avec oscar, je t'aime très fort !! 💖";
   let index = 0;
   letterText.textContent = "";
   letterText.classList.add('typing');
